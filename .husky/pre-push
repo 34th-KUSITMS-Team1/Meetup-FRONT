@@ -1,0 +1,7 @@
+# main 브랜치 직접 push 방지. 작업 브랜치에서 PR로 병합합니다.
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$remote_ref" = "refs/heads/main" ]; then
+    echo "main 브랜치에는 직접 push할 수 없습니다. 작업 브랜치를 push하고 PR을 올려 주세요."
+    exit 1
+  fi
+done
