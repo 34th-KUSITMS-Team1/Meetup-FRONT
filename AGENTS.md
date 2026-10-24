@@ -37,9 +37,10 @@ Expo는 SDK마다 breaking change가 있습니다. Expo, EAS, React Native API�
 | `pnpm ios`, `pnpm android` | 플랫폼 지정 실행 |
 | `pnpm lint` | expo lint |
 | `pnpm exec tsc --noEmit` | 타입 체크 |
-| `pnpm exec expo install <pkg>` | 의존성 추가 (`pnpm add` 대신 항상 사용) |
+| `pnpm exec expo install <pkg>` | 앱 의존성 추가 (`pnpm add` 대신) |
+| `pnpm add --save-dev <pkg>` | Expo와 무관한 개발 도구 추가 (husky 등) |
 | `pnpm exec expo install --fix` | SDK 호환 버전으로 정리 |
-| `pnpm exec expo-doctor` | 의존성/설정 진단 |
+| `pnpm dlx expo-doctor` | 의존성/설정 진단 |
 
 ### 규칙 로딩
 

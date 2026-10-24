@@ -3,7 +3,8 @@
 ## 패키지
 
 - `pnpm`만 사용합니다. `npm`, `yarn`, `bun`, `npx` 대신 `pnpm exec` / `pnpm dlx`를 씁니다.
-- 의존성은 `pnpm add`가 아니라 `pnpm exec expo install <pkg>`로 추가합니다. 추가 전에 사용자 확인을 받습니다.
+- 앱 의존성은 `pnpm add`가 아니라 `pnpm exec expo install <pkg>`로 추가합니다. 추가 전에 사용자 확인을 받습니다.
+- Expo SDK와 무관한 개발 도구(husky 등)는 `pnpm add --save-dev <pkg>`로 추가합니다. `expo install ... -- --dev`는 이 환경에서 패키지를 잘못 설치합니다(`docs/known-issues/expo-install-dev-flag.md`).
 - 서드파티 라이브러리보다 Expo 모듈을 우선합니다.
 - EAS CLI는 `pnpm dlx eas-cli <command>`로 실행합니다.
 

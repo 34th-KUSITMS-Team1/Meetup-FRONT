@@ -21,7 +21,7 @@ argument-hint: "[파일 경로 또는 범위]"
 
 ## 커밋 컨벤션
 
-형식은 `<type>: <subject>` 한 줄입니다. scope는 쓰지 않습니다.
+형식은 `<type>: <subject>` 한 줄입니다. scope는 쓰지 않습니다. `.husky/commit-msg`가 형식과 AI 출처 문구를 검사하므로, 여기를 바꾸면 그 파일도 함께 고칩니다.
 
 | type | 용도 |
 | --- | --- |

@@ -20,7 +20,12 @@
 | `pnpm ios`, `pnpm android` | 플랫폼 지정 실행 |
 | `pnpm lint` | lint |
 | `pnpm exec tsc --noEmit` | 타입 체크 |
-| `pnpm exec expo install <pkg>` | 의존성 추가 (`pnpm add` 대신) |
+| `pnpm exec expo install <pkg>` | 앱 의존성 추가 (`pnpm add` 대신) |
+| `pnpm add --save-dev <pkg>` | Expo와 무관한 개발 도구 추가 |
+
+- `pnpm install`을 하면 `prepare` 스크립트가 husky git 훅을 자동으로 연결합니다.
+  - 커밋 메시지가 `<type>: <subject>` 형식이 아니면 커밋이 거절됩니다.
+  - `main` 브랜치로 직접 push하면 거절됩니다. 작업 브랜치를 push하고 PR을 올립니다.
 
 - `npm`, `yarn`, `bun`, `npx`는 사용하지 않습니다. `pnpm exec` / `pnpm dlx`를 사용합니다.
 - Live Activity(`expo-widgets`)와 외부 앱 딥링크 확인은 **Expo Go에서 동작하지 않습니다.** development build(`pnpm exec expo run:ios`)로 확인합니다.
@@ -45,8 +50,9 @@ Claude Code와 Codex가 이 프로젝트에서 같은 기준으로 일하도록 
 | `.claude/settings.json` | 팀 공용 설정. `settings.local.json`은 개인용이라 git 제외 |
 | `.agents/skills/` | Codex용 스킬. 각 파일이 `.claude/skills` 원본을 읽도록 연결 |
 | `docs/decisions/` | 결정 기록 (예: `001-folder-structure.md`) |
-| `docs/known-issues/` | 외부 요인 이슈 기록. 필요할 때 생성 |
+| `docs/known-issues/` | 외부 요인 이슈 기록 (예: `expo-install-dev-flag.md`) |
 | `.github/` | PR/이슈 템플릿, 이슈 → 브랜치 자동 생성 workflow |
+| `.husky/` | git 훅. `commit-msg`(커밋 컨벤션 검사), `pre-push`(main 직접 push 차단) |
 | `.serena/` | Serena(MCP 코드 탐색 도구) 프로젝트 설정. 캐시와 개인 설정은 폴더 내부 `.gitignore`로 제외 |
 
 `.omc/`(oh-my-claudecode 상태)와 `.claude/settings.local.json`은 개인 환경 파일이라 `.gitignore`로 제외합니다.
@@ -69,7 +75,7 @@ Claude Code와 Codex가 이 프로젝트에서 같은 기준으로 일하도록 
 | `core/principles.md` | 작업 원칙. 추측하지 않고 가정 밝히기, 요청하지 않은 기능·추상화 넣지 않기, 필요한 줄만 수정 |
 | `core/constraints.md` | 금지/제약. pnpm만 사용, 의존성 추가 전 확인, `ios/`·`android/` 직접 수정 금지, Tailwind v4 금지, API 스펙 문서로만 확인, 서버 데이터는 TanStack Query |
 | `core/workflow.md` | 작업 순서(확인 → 성공 기준 → 수정 → 검증 → 보고)와 결정·외부 이슈를 기록해야 하는 순간 |
-| `core/verify.md` | 검증 기준. 코드 변경 시 `pnpm lint` + `tsc` 필수, 설정 변경 시 `expo-doctor`, 기기에서 못 본 것은 "확인 못 함"으로 보고 |
+| `core/verify.md` | 검증 기준. 코드 변경 시 `pnpm lint` + `tsc` 필수, 설정 변경 시 `pnpm dlx expo-doctor`, 기기에서 못 본 것은 "확인 못 함"으로 보고 |
 
 ### guides — 작업할 때만 적용
 
@@ -137,8 +143,9 @@ Claude Code 기본 명령과 함께 씁니다.
 
 1. **이슈 생성**: `이슈 생성` 템플릿에서 브랜치 유형과 브랜치에 포함될 작업 내용(영문)을 입력합니다.
 2. **브랜치 자동 생성**: workflow가 `<유형>/<이슈번호>-<작업 내용>` 브랜치를 만들고 이슈에 댓글을 남깁니다. 예: `feat/12-login-ui`
-3. **커밋**: `<type>: <subject>` 형식. `/commit`으로 제안받을 수 있습니다.
-4. **PR**: PR 템플릿의 `셀프 체크리스트`에는 실제로 확인한 항목만 체크하고, 기기에서 보지 못한 동작이나 development build 필요 여부는 `리뷰 요구사항`에 적습니다. `/pr`로 초안을 만들 수 있습니다.
+3. **커밋**: `<type>: <subject>` 형식이며 husky가 검사합니다. `/commit`으로 제안받을 수 있습니다.
+4. **push**: 작업 브랜치만 push합니다. `main`으로의 push는 husky가 막습니다.
+5. **PR**: PR 템플릿의 `셀프 체크리스트`에는 실제로 확인한 항목만 체크하고, 기기에서 보지 못한 동작이나 development build 필요 여부는 `리뷰 요구사항`에 적습니다. `/pr`로 초안을 만들 수 있습니다.
 
 ## 규칙을 바꾸고 싶을 때
 
